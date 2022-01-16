@@ -1,0 +1,16 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "username": "root",
+  "password": "password",
+  "database": "real-estate-db",
+  "logging": true,
+  "logger": "file",
+  "synchronize": false,
+  "entities": ["dist/**/*.entity.js"],
+  "migrationsTableName": "migrations",
+  "migrations": ["src/migrations/*{.ts,.js}"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}
