@@ -83,7 +83,7 @@ export class AdvertisementController {
             fileFilter: imageFileFilter,
         }),
     )
-    public async updated(@Param('advertisementId') advertisementId, @Body(new ValidationPipe({transform:true})) advertisementDto, @UploadedFile() file) {
+    public async updated(@Param('advertisementId') advertisementId, @Body(new ValidationPipe({transform:true})) advertisementDto: AdvertisementEntity, @UploadedFile() file) {
         let urlPicture = '';
         if (file) {
             if (file.size > 5000000) {
