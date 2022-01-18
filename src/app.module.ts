@@ -2,9 +2,15 @@ import { Module } from '@nestjs/common';
 import { AdvertisementModule } from './modules/advertisement/advertisement.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {Connection} from "typeorm";
+import {MulterModule} from "@nestjs/platform-express";
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), AdvertisementModule],
+  imports: [
+    MulterModule.register({
+      dest: './files',
+    }),
+    TypeOrmModule.forRoot(),
+    AdvertisementModule],
   controllers: [],
   providers: [],
 })

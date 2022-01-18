@@ -1,4 +1,4 @@
-import {Injectable, InternalServerErrorException} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, InternalServerErrorException} from '@nestjs/common';
 import {AdvertisementRepository} from "./advertisement.repository";
 import {AdvertisementEntity} from "./advertisement.entity";
 
@@ -19,12 +19,39 @@ export class AdvertisementService {
         }
         return null;
     }
-
-    public async createAdvertisement(advertisement: AdvertisementEntity) {
-        return this.advertisementRepository.created(advertisement);
+    public async getAdvertisementPicture(advertisementId: number) {
+        const advertisement = await this.advertisementRepository.findById(advertisementId);
+        if (advertisement) {
+            let fileName: string = null;
+            const url = advertisement?.getUrlPicture();
+            if (url == null) {
+                throw new HttpException("Cette image n'existe pas", HttpStatus.NOT_FOUND);
+            }
+            const formatUrlData = url.split("./files/");
+            fileName = formatUrlData[1];
+            return fileName;
+        }
+        throw new HttpException("Cette annonce n'existe pas", HttpStatus.NOT_FOUND);
     }
 
-    public async updateAdvertisement(id: number, advertisement: AdvertisementEntity) {
+
+    public async createAdvertisement(advertisement: AdvertisementEntity, urlPicture: string) {
+        if(urlPicture) {
+            advertisement.setUrlPicture(urlPicture)
+        }
+        const newAdvertisement = await this.advertisementRepository.created(advertisement);
+        if (newAdvertisement) {
+            return newAdvertisement;
+        } else {
+            return null;
+        }
+
+    }
+
+    public async updateAdvertisement(id: number, advertisement: AdvertisementEntity, urlPicture: string) {
+        if(urlPicture) {
+           advertisement.setUrlPicture(urlPicture);
+        }
         await this.advertisementRepository.updated(id, advertisement);
         return this.advertisementRepository.findById(id);
     }
