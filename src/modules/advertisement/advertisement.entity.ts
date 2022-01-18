@@ -6,11 +6,15 @@ export class AdvertisementEntity {
     @PrimaryGeneratedColumn({name: 'advertisement_id'})
     private id: number;
 
-    @Column({type: 'varchar', name: 'title', length: 191, nullable: true})
+    @Column({type: 'varchar', name: 'title', length: 191, nullable: false})
     private title: string;
 
     @Column({type: 'varchar', name: 'description', length: 191, nullable: true})
     private description: string;
+
+    @Column({type: "varchar", name: "url_picture", length: 191, nullable: true})
+    private urlPicture: string;
+
 
     @CreateDateColumn({name: 'created_at', nullable: true})
     private createdAt: Date;
@@ -42,4 +46,13 @@ export class AdvertisementEntity {
     public getCreatedAt(): Date {
         return this.createdAt;
     }
+
+    public getUrlPicture(): string {
+        return this.urlPicture;
+    }
+
+    public setUrlPicture(urlPicture: string): void {
+        this.urlPicture = urlPicture;
+    }
+
 }
